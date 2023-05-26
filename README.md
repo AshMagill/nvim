@@ -5,6 +5,8 @@ Where all my Vim configs live
 ## setup
 
 <ol>
+<li>install neovim</li>
+<li>copy this repos contents into .config/nvim</li>
 <li>open vim and enter ':PlugInstall'</li>
 <li>exit and opent again, entering ':PackerInstall'</li>
 <li>
