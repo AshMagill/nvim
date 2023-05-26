@@ -1,2 +1,0 @@
-had to install ripgrep with pacman
-install js-debug-adapter + node-debug2-adapter in mason
