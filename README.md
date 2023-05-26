@@ -10,7 +10,7 @@ Where all my Vim configs live
 <li>open nvim and enter ':PlugInstall'</li>
 <li>exit and open nvim again, entering ':PackerInstall'</li>
 <li>
-install js-debug-adapter + node-debug2-adapter in mason ':Mason in vim'
+install js-debug-adapter + node-debug2-adapter in nvim via mason ':Mason'
 </li>
 <li>
 install ripgrep with pacman 'sudo pacman -Syu'
