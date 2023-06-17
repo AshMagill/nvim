@@ -39,14 +39,16 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'thinca/vim-quickrun'
 Plug 'wbthomason/packer.nvim'	
 Plug 'williamboman/mason.nvim'
-
-
+Plug 'wfxr/minimap.vim'
 call plug#end()
 
 " import lua configs for telescope, ripgrep and, dapui, mason,  dap
 lua require('init')
 
 " GENERAL 
+
+" Toggle Minimap
+nmap <C-m> :MinimapToggle<CR>
 
 " Statusline settings
 set statusline +=%1*%=%5l%*             "current line
@@ -335,7 +337,7 @@ let g:db_ui_tmp_query_location = './dbui-buffers'
 " Call Httpie clients in vim to the right
 command Httpie set splitbelow | new | set filetype=sh | read !sh #
 
-" PYTHON
+" PYTHON and other quickrun
 
 " press f10 to run all code
 nmap <f10> <Plug>(quickrun)

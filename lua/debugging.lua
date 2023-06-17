@@ -8,7 +8,24 @@ require("dap-vscode-js").setup({
   -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
 })
 
-require("dapui").setup()
+require("dapui").setup({
+  controls = {
+    enabled = vim.fn.exists("+winbar") == 1,
+    element = "repl",
+    icons = {
+      pause = " ",
+      play = " ",
+      step_into = " ",
+      step_over = " ",
+      step_out = " ",
+      step_back = " ",
+      run_last = " ",
+      terminate = " ",
+      disconnect = " ",
+    },
+  },
+}
+)
 
 local dap, dapui = require("dap"), require("dapui")
 

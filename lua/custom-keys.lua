@@ -1,6 +1,16 @@
 -- set leader key to ,
 vim.g.mapleader = ','
 
+-- chatgpt keymaps
+-- ask 
+vim.keymap.set('n', '<leader>cg', '<cmd>ChatGPT<cr>')
+-- ask as persona
+vim.keymap.set('n', '<leader>cga', '<cmd>ChatGPTActAs<cr>')
+-- run
+vim.keymap.set('n', '<leader>cgr', '<cmd>ChatGPTRun<cr>')
+--edit with instructions
+vim.keymap.set('n', '<leader>cgi', function()require('chatgpt').edit_with_instructions()end)
+
 -- Set keymaps to control the debugger
 vim.keymap.set('n', '<F5>', require 'dap'.continue)
 vim.keymap.set('n', '<F10>', require 'dap'.step_over)
