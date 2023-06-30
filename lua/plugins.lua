@@ -1,22 +1,25 @@
 return require('packer').startup(function(use)
 	-- Configuration is going here
-	
+
 	-- plugin/package management for Neovim
 	use 'wbthomason/packer.nvim'	
+  use 'whoissethdaniel/mason-tool-installer.nvim'
 
+  -- intergrated terminal
+  use {"akinsho/toggleterm.nvim", tag = '*', config = function()
+  require("toggleterm").setup()
+end}
+	
 	-- manage external editor tooling  
 	use 'williamboman/mason.nvim'
 
-	-- Plugins for code completion 
-
  	-- DAP for debugging
 	use 'mfussenegger/nvim-dap'
-	use {
-		'rcarriga/nvim-dap-ui',
-		requires = {
-			"mfussenegger/nvim-dap"
-		}
-	}
+  use 'nvim-treesitter/nvim-treesitter'
+	use 'rcarriga/nvim-dap-ui'
+  use 'theHamsta/nvim-dap-virtual-text'
+  use 'mxsdev/nvim-dap-vscode-js'
+  use 'liadoz/nvim-dap-repl-highlights'
 
   -- Telescope used to fuzzy search files
  use {
@@ -37,17 +40,5 @@ use({
     }
 })
 
-  -- allows neovim to connect to vscode-js-debug with dap
- use 'mxsdev/nvim-dap-vscode-js'
-
-  -- vscode debug server
- use {
-  "microsoft/vscode-js-debug",
-  opt = true,
-  run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out" 
-}
- -- nvim debugging for reactnative
-use 'sultanahamer/nvim-dap-reactnative'
 
 end)
-
