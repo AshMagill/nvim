@@ -4,11 +4,6 @@ return require('packer').startup(function(use)
 	-- plugin/package management for Neovim
 	use 'wbthomason/packer.nvim'	
   use 'whoissethdaniel/mason-tool-installer.nvim'
-
-  -- intergrated terminal
-  use {"akinsho/toggleterm.nvim", tag = '*', config = function()
-  require("toggleterm").setup()
-end}
 	
 	-- manage external editor tooling  
 	use 'williamboman/mason.nvim'
