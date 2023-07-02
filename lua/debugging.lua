@@ -188,7 +188,7 @@ local js_based_languages = { "typescript", "javascript", "typescriptreact" }
 for _, language in ipairs(js_based_languages) do
   require("dap").configurations[language] = {
   {
-    name = "React Attach (3000) (chrome)",
+    name = "React Attach (chrome 9222)",
     type = "chrome",
     request = "attach",
     program = "${file}",
@@ -199,7 +199,7 @@ for _, language in ipairs(js_based_languages) do
     webRoot = "${workspaceFolder}",
   },
   {
-    name = "React Native Attach (8081) (node2)",
+    name = "React Native Attach (expo 19000)",
     type = "node2",
     request = "attach",
     program = "${file}",
@@ -207,23 +207,20 @@ for _, language in ipairs(js_based_languages) do
     sourceMaps = true,
     protocol = "inspector",
     console = "integratedTerminal",
-    port = 8081,
+    port = 19000, 
   },
   {
-    name = "React Native Attach (8081) (pwa-node)",
-    type = "pwa-node",
+    name = "Express Attach (node 9222)",
+    type = "node2",
     request = "attach",
-    processId = require('dap.utils').pick_process,
     cwd = vim.fn.getcwd(),
-    rootPath = '${workspaceFolder}',
-    skipFiles = { "<node_internals>/**", "node_modules/**" },
     sourceMaps = true,
     protocol = "inspector",
-    console = "integratedTerminal",
+    skipfiles = {'<node_internals>/**/*.js'}
   },
   {
-    name = "Javascript Attach (9222) (chrome)",
-    type = "chrome",
+    name = "Javascript Attach (chrome 9222)",
+    type = "node2",
     request = "attach",
     program = "${file}",
     cwd = vim.fn.getcwd(),
@@ -233,7 +230,7 @@ for _, language in ipairs(js_based_languages) do
     webRoot = "${workspaceFolder}",
   },
   {
-    name = "Javascript Launch (node2)",
+    name = "Javascript Launch (node auto)",
     type = "node2",
     request = "launch",
     program = "${file}",
