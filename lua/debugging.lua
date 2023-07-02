@@ -40,6 +40,7 @@ require('nvim-dap-repl-highlights').setup()
 -- ╰──────────────────────────────────────────────────────────╯
 
 dapui.setup({
+  reset = true,
   icons = { expanded = "▾", collapsed = "▸" },
   mappings = {
     -- Use a table to apply multiple mappings
