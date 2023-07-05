@@ -220,6 +220,16 @@ for _, language in ipairs(js_based_languages) do
     skipfiles = {'<node_internals>/**/*.js'}
   },
   {
+    name = "Express Attach (node 9222 restart)",
+    type = "node2",
+    request = "attach",
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = "inspector",
+    skipfiles = {'<node_internals>/**/*.js'},
+    restart = true
+  },
+  {
     name = "Javascript Attach (chrome 9222)",
     type = "node2",
     request = "attach",

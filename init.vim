@@ -47,6 +47,9 @@ lua require('init')
 
 " GENERAL 
 
+" Hide tilde color
+set fillchars=eob:\ 
+
 " Toggle Minimap
 nmap <C-m> :MinimapToggle<CR>
 
