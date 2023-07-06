@@ -11,6 +11,9 @@ vim.keymap.set('n', '<leader>cgr', '<cmd>ChatGPTRun<cr>')
 --edit with instructions
 vim.keymap.set('n', '<leader>cgi', function()require('chatgpt').edit_with_instructions()end)
 
+-- Toggleterm
+vim.keymap.set('n','<leader>tt', '<cmd>ToggleTerm<cr>')
+
 -- Set keymaps to control the debugger
 vim.keymap.set('n', '<leader>ui', require 'dapui'.toggle)
 vim.keymap.set('n', '<F5>', require 'dap'.continue)

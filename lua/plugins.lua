@@ -16,6 +16,11 @@ return require('packer').startup(function(use)
   use 'mxsdev/nvim-dap-vscode-js'
   use 'liadoz/nvim-dap-repl-highlights'
 
+  -- Intergrated Terminal
+use {"akinsho/toggleterm.nvim", tag = '*', config = function()
+  require("toggleterm").setup()
+end}
+
   -- Telescope used to fuzzy search files
  use {
     'nvim-telescope/telescope.nvim', tag = '0.1.0',
