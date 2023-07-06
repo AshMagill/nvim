@@ -47,11 +47,17 @@ lua require('init')
 
 " GENERAL 
 
+" move panes
+noremap <silent> <C-S-Left> :vertical resize +1<CR>
+noremap <silent> <C-S-Right> :vertical resize -1<CR>
+noremap <silent> <C-S-Down> :horizontal resize +1<CR>
+noremap <silent> <C-S-Up> :horizontal resize -1<CR>
+
 " Hide tilde color
 set fillchars=eob:\ 
 
 " Toggle Minimap
-nmap <C-m> :MinimapToggle<CR>
+nmap <leader>mm :MinimapToggle<CR>
 
 " Statusline settings
 set statusline +=%1*%=%5l%*             "current line
