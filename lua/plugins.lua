@@ -29,7 +29,7 @@ end}
     requires = { {'nvim-lua/plenary.nvim'} }
 }
 
- -- Use ChatGPT in neovim
+  --Use ChatGPT in neovim
 use({
   "jackMort/ChatGPT.nvim",
    config = function()
