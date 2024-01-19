@@ -2,14 +2,13 @@
 vim.g.mapleader = ','
 
 -- chatgpt keymaps
--- ask 
-vim.keymap.set('n', '<leader>cg', '<cmd>ChatGPT<cr>')
--- ask as persona
-vim.keymap.set('n', '<leader>cga', '<cmd>ChatGPTActAs<cr>')
--- run
-vim.keymap.set('n', '<leader>cgr', '<cmd>ChatGPTRun<cr>')
---edit with instructions
-vim.keymap.set('n', '<leader>cgi', function()require('chatgpt').edit_with_instructions()end)
+vim.keymap.set('n', '<leader>cg', '<cmd>ChatGPT<cr>') -- ask 
+vim.keymap.set('n', '<leader>cga', '<cmd>ChatGPTActAs<cr>') -- ask as persona
+vim.keymap.set('n', '<leader>cgr', '<cmd>ChatGPTRun<cr>')-- run
+vim.keymap.set('n', '<leader>cgi', function()require('chatgpt').edit_with_instructions()end) -- edit with instructions
+
+-- copilot
+--vim.keymap.set('i', '<C-L>', '<Plug>(copilot-accept-word)')
 
 -- Toggleterm
 vim.keymap.set('n', '<leader>tt', '<cmd>ToggleTerm<cr>')
@@ -24,3 +23,7 @@ vim.keymap.set('n', '<leader>b', require 'dap'.toggle_breakpoint)
 vim.keymap.set('n', '<leader>B', function()
   require 'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))
 end)
+
+-- local ai
+vim.keymap.set({ 'n', 'v' }, '<leader>]', ':Gen<CR>')
+

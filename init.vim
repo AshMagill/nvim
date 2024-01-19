@@ -6,7 +6,6 @@ if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autolo
 endif
 
 "Plugins
-
 call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'SirVer/ultisnips'
@@ -28,6 +27,7 @@ Plug 'mattn/emmet-vim', { 'for': ['javascript', 'jsx', 'html', 'css'] }
 Plug 'ap/vim-css-color', {'for': ['css', 'scss','sass']} 
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'kristijanhusak/vim-dadbod-completion'
 Plug 'diepm/vim-rest-console'
 Plug 'Mathijs-Bakker/zoom-vim'
 Plug 'aklt/plantuml-syntax'
@@ -40,7 +40,101 @@ Plug 'thinca/vim-quickrun'
 Plug 'wbthomason/packer.nvim'	
 Plug 'williamboman/mason.nvim'
 Plug 'wfxr/minimap.vim'
+"Plug 'luk400/vim-jukit' this is good for python stuff but leaves files everywere
+Plug 'github/copilot.vim'
+Plug 'zhenyangze/vim-bitoai'
+Plug 'dj95/telescope-gen.nvim'
+
 call plug#end()
+
+"copilot:  shift and \ to accept
+imap <silent><script><expr> \| copilot#Accept('\<CR>')
+let g:copilot_no_tab_map = v:true
+
+
+
+" basic jukit options:
+let g:jukit_shell_cmd = 'ipython3'
+"    - Specifies the command used to start a shell in the output split. Can also be an absolute path. Can also be any other shell command, e.g. `R`, `julia`, etc. (note that output saving is only possible for ipython)
+let g:jukit_terminal = 'nvimterm'
+"   - Terminal to use. Can be one of '', 'kitty', 'vimterm', 'nvimterm' or 'tmux'. If '' is given then will try to detect terminal (though this might fail, in which case it simply defaults to 'vimterm' or 'nvimterm' - depending on the output of `has("nvim")`)
+let g:jukit_auto_output_hist = 0
+"   - If set to 1, will create an autocmd with event `CursorHold` to show saved ipython output of current cell in output-history split. Might slow down (n)vim significantly, you can use `set updatetime=<number of milliseconds>` to control the time to wait until CursorHold events are triggered, which might improve performance if set to a higher number (e.g. `set updatetime=1000`).
+let g:jukit_use_tcomment = 0
+"   - Whether to use tcomment plugin (https://github.com/tomtom/tcomment_vim) to comment out cell markers. If not, then cell markers will simply be prepended with `g:jukit_comment_mark`
+let g:jukit_comment_mark = '#'
+"   - See description of `g:jukit_use_tcomment` above
+let g:jukit_mappings = 1
+"   - If set to 0, none of the default function mappings (as specified further down) will be applied
+let g:jukit_mappings_ext_enabled = "*"
+"   - String or list of strings specifying extensions for which the mappings will be created. For example, `let g:jukit_mappings_ext_enabled=['py', 'ipynb']` will enable the mappings only in `.py` and `.ipynb` files. Use `let g:jukit_mappings_ext_enabled='*'` to enable them for all files.
+let g:jukit_notebook_viewer = 'jupyter-notebook'
+"   - Command to open .ipynb files, by default jupyter-notebook is used. To use e.g. vs code instead, you could set this to `let g:jukit_notebook_viewer = 'code'`
+let g:jukit_convert_overwrite_default = -1
+"   - Default setting when converting from .ipynb to .py or vice versa and a file of the same name already exists. Can be of [-1, 0, 1], where -1 means no default (i.e. you'll be prompted to specify what to do), 0 means never overwrite, 1 means always overwrite
+let g:jukit_convert_open_default = -1
+"   - Default setting for whether the notebook should be opened after converting from .py to .ipynb. Can be of [-1, 0, 1], where -1 means no default (i.e. you'll be prompted to specify what to do), 0 means never open, 1 means always open
+let g:jukit_file_encodings = 'utf-8'
+"   - Default encoding for reading and writing to files in the python helper functions
+let g:jukit_venv_in_output_hist = 1
+"   - Whether to also use the provided terminal command for the output history split when starting the splits using the JukitOUtHist command. If 0, the provided terminal command is only used in the output split, not in the output history split.
+
+let g:jukit_highlight_markers = 0 
+"    - Whether to highlight cell markers or not. You can specify the colors of cell markers by putting e.g. `highlight jukit_cellmarker_colors guifg=#1d615a guibg=#1d615a ctermbg=22 ctermfg=22` with your desired colors in your (neo)vim config. Make sure to define this highlight *after* loading a colorscheme in your (neo)vim config
+let g:jukit_enable_textcell_bg_hl = 0 
+"    - Whether to highlight background of textcells. You can specify the color by putting `highlight jukit_textcell_bg_colors guibg=#131628 ctermbg=0` with your desired colors in your (neo)vim config. Make sure to define this highlight group *after* loading a colorscheme in your (neo)vim config.
+let g:jukit_enable_textcell_syntax = 0 
+"    - Whether to enable markdown syntax highlighting in textcells
+let g:jukit_text_syntax_file = $VIMRUNTIME . '/syntax/' . 'markdown.vim'
+"    - Syntax file to use for textcells. If you want to define your own syntax matches inside of text cells, make sure to include `containedin=textcell`.
+let g:jukit_hl_ext_enabled = '*'
+"    - String or list of strings specifying extensions for which the relevant highlighting autocmds regarding marker-highlighting, textcell-highlighting, etc. will be created. For example, `let g:jukit_hl_extensions=['py', 'R']` will enable the defined highlighting options for `.py` and `.R` files. Use `let g:jukit_hl_extensions='*'` to enable them for all files and `let g:jukit_hl_extensions=''` to disable them completely
+
+" You can define a custom split layout as a dictionary, the default is:
+let g:jukit_layout = {
+    \'split': 'horizontal',
+    \'p1': 0.6, 
+    \'val': [
+        \'file_content',
+        \{
+            \'split': 'vertical',
+            \'p1': 0.6,
+            \'val': ['output', 'output_history']
+        \}
+    \]
+\}
+
+" this results in the following split layout:
+"  ______________________________________
+" |                      |               |
+" |                      |               |
+" |                      |               |
+" |                      |               |
+" |                      |     output    |
+" |                      |               |
+" |                      |               |
+" |    file_content      |               |
+" |                      |_______________|
+" |                      |               |
+" |                      |               |
+" |                      | output_history|
+" |                      |               |
+" |                      |               |
+" |______________________|_______________|
+"
+" The positions of all 3 split windows must be defined in the dictionary, even if 
+" you don't plan on using the output_history split.
+"
+" dictionary keys:
+" 'split':  Split direction of the two splits specified in 'val'. Either 'horizontal' or 'vertical'
+" 'p1':     Proportion of the first split specified in 'val'. Value must be a float with 0 < p1 < 1
+" 'val':    A list of length 2 which specifies the two splits for which to apply the above two options.
+"           One of the two items in the list must be a string and one must be a dictionary in case of
+"           the 'outer' dictionary, while the two items in the list must both be strings in case of
+"           the 'inner' dictionary.
+"           The 3 strings must be different and can be one of: 'file_content', 'output', 'output_history'
+"
+" To not use any layout, specify `let g:jukit_layout=-1`
 
 " import lua configs for telescope, ripgrep and, dapui, mason,  dap
 lua require('init')
@@ -179,7 +273,9 @@ let g:coc_global_extensions = [
   \ 'coc-prettier',
   \ 'coc-json',
   \ 'coc-tabnine',
-  \ 'coc-pyright'
+  \ 'coc-pyright',
+  \ 'coc-rust-analyzer',
+  \ 'coc-ccls',
   \ ]
 
 " if hidden is not set, TextEdit might fail.

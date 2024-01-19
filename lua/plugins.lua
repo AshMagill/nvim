@@ -8,6 +8,8 @@ return require('packer').startup(function(use)
 	-- manage external editor tooling  
 	use 'williamboman/mason.nvim'
 
+  use 'nvim-lua/plenary.nvim'
+
  	-- DAP for debugging
 	use 'mfussenegger/nvim-dap'
   use 'nvim-treesitter/nvim-treesitter'
@@ -23,14 +25,14 @@ end}
 
   -- Telescope used to fuzzy search files
  use {
-    'nvim-telescope/telescope.nvim', tag = '0.1.0',
+    'nvim-telescope/telescope.nvim', tag = '1.0.0', 
     requires = { {'nvim-lua/plenary.nvim'} }
- }
+}
 
  -- Use ChatGPT in neovim
 use({
   "jackMort/ChatGPT.nvim",
-    config = function()
+   config = function()
       require("chatgpt").setup()
     end,
     requires = {
@@ -38,6 +40,11 @@ use({
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim"
     }
+})
+
+-- use local ai in vim
+use({
+    "David-Kunz/gen.nvim"
 })
 
 end)

@@ -6,3 +6,6 @@ require('file-finder')
 require('auto-install')
 require('parsers')
 require('intergrated-terminal')
+require('local-ai')
+--this doesnt work yet
+require('chat-gpt')

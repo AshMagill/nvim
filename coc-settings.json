@@ -1,16 +1,16 @@
 {
   "suggest.noselect": false,
-  "coc.preferences.formatOnSaveFiletypes": [
-    "html",
-    "scss",
-    "css",
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "json",
-    "markdown",
-    "graphql",
-    "python"
-  ]
+  "coc.preferences.formatOnSave": ["*"],
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "objc", "objcpp"],
+      "initializationOptions": {
+        "cache": {
+          "directory": "/tmp/ccls"
+        }
+      }
+    }
+  },
+  "snippets.ultisnips.pythonPrompt": false
 }
