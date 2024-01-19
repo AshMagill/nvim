@@ -7,29 +7,12 @@ local custom_chat_config = {
   loading_text = "Loading, please wait ...",
   question_sign = "", -- 🙂
   answer_sign = "ﮧ", -- 🤖
-  max_line_length = 120,
-  sessions_window = {
-    border = {
-      style = "rounded",
-      text = {
-        top = " Sessions ",
-      },
-    },
-    win_options = {
-      winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
-    },
-  },
 }
 
 -- Define your custom openai_params configuration
 local custom_openai_params = {
   model = 'gpt-4-1106-preview'	, -- Change to your desired model name
-  frequency_penalty = 0.5, -- Adjust the frequency_penalty value as needed
-  presence_penalty = 0.5, -- Adjust the presence_penalty value as needed
-  max_tokens = 800, -- Change the maximum token limit as needed
-  temperature = 0.7, -- Adjust the temperature value as needed
-  top_p = 0.9, -- Adjust the top_p value as needed
-  n = 2, -- Change the number of completions (n) as needed
+  --model = 'gpt-3.5-turbo'	, -- Change to your desired model name
 }
 
 -- Set up the ChatGPT plugin with your custom configurations
