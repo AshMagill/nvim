@@ -1,4 +1,4 @@
-return require('packer').startup(function(use)
+  return require('packer').startup(function(use)
 	-- Configuration is going here
 
 	-- plugin/package management for Neovim
@@ -47,4 +47,10 @@ use({
     "David-Kunz/gen.nvim"
 })
 
+--use'm4xshen/hardtime.nvim'
+
+
 end)
+
+
+

@@ -276,6 +276,7 @@ let g:coc_global_extensions = [
   \ 'coc-pyright',
   \ 'coc-rust-analyzer',
   \ 'coc-ccls',
+  \ 'coc-styled-components'
   \ ]
 
 " if hidden is not set, TextEdit might fail.
