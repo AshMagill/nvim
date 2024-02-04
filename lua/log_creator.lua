@@ -6,7 +6,6 @@
        },
        Workspace = {
            "Mernrod", "rwg", "Ecommerce", "Chatscreen"
-, "Gusn" 
        }
    }
    local function get_current_date()

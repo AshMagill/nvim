@@ -25,30 +25,25 @@ function M.create_folder()
                     local log_creator_path = "/home/ash/.config/nvim/lua/log_creator.lua"
                     local log_creator_file = io.open(log_creator_path, "a") -- Open for appending
                     if log_creator_file then
-    local new_entry = string.format(', "%s" ', folder_name)
-    local category_key = category == "Workflow" and "Workflow" or "Workspace"
-    local lines = {}
-    local inside_category = false
-    for line in io.lines(log_creator_path) do
-        if line:match('^%s*' .. category_key .. ' = {') then
-            table.insert(lines, line)
-            inside_category = true
-        elseif inside_category and line:match('^%s*}') then
-            table.insert(lines, new_entry)
-            table.insert(lines, line)
-            inside_category = false
-        else
-            table.insert(lines, line)
-        end
-    end
-    log_creator_file:close()
-    -- Rewrite the log_creator.lua file with the new entry
-    log_creator_file = io.open(log_creator_path, "w")
-    for _, line in ipairs(lines) do
-        log_creator_file:write(line .. "\n")
-    end
-    log_creator_file:close()
-    print("Folder and log entry created successfully.")
+                        local new_entry = string.format('           "%s",\n', folder_name)
+                        local category_key = category == "Workflow" and "Workflow" or "Workspace"
+                        local lines = {}
+                        for line in io.lines(log_creator_path) do
+                            if line:match('"' .. category_key .. '"') then
+                                table.insert(lines, line)
+                                table.insert(lines, new_entry)
+                            else
+                                table.insert(lines, line)
+                            end
+                        end
+                        log_creator_file:close()
+                        -- Rewrite the log_creator.lua file with the new entry
+                        log_creator_file = io.open(log_creator_path, "w")
+                        for _, line in ipairs(lines) do
+                            log_creator_file:write(line .. "\n")
+                        end
+                        log_creator_file:close()
+                        print("Folder and log entry created successfully.")
                     else
                         print("Error: Unable to open log_creator.lua for updating.")
                     end
