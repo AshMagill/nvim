@@ -15,7 +15,7 @@ local function create_log_file(category, title)
     
     local file = io.open(path, "w")
     if file then
-        file:write("-- Log created on " .. date .. " --\n\n")
+        --file:write("-- Log created on " .. date .. " --\n\n")
         file:close()
         print("Log file created: " .. path)
         vim.cmd("edit " .. path)
