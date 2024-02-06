@@ -11,18 +11,17 @@ local function create_log_file(category, title)
         path = "/home/ash/" .. category .. "/Logs/" .. filename
     else
         path = "/home/ash/Documents/" .. category .. "/Logs/" .. filename
-    end
-    
+    end    
     local file = io.open(path, "w")
     if file then
-        --file:write("-- Log created on " .. date .. " --\n\n")
         file:close()
         print("Log file created: " .. path)
-        vim.cmd("edit " .. path)
+        vim.cmd("vsplit " .. path) -- Open the new log file in another pane
     else
         print("Error creating log file: " .. path)
     end
 end
+
 function M.create_log()
     local log_directories = {
         Workflow = {},

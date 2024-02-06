@@ -49,8 +49,8 @@ use({
 
 --use'm4xshen/hardtime.nvim'
 
-
+use {
+	'arnarg/todotxt.nvim',
+	requires = {'MunifTanjim/nui.nvim'},
+}
 end)
-
-
-

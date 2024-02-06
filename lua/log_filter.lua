@@ -17,8 +17,10 @@ function M.getLogs()
         end)
         for _, fileInfo in ipairs(sortedFiles) do
             local header = vim.fn.fnamemodify(fileInfo.file, ":t:r")
-            header = header .. " - " .. vim.fn.fnamemodify(vim.fn.fnamemodify(folderPath, ":h"), ":t")
+            --header = header .. " - " .. vim.fn.fnamemodify(vim.fn.fnamemodify(folderPath, ":h"), ":t")
+            vim.api.nvim_buf_set_lines(logsBuffer, -1, -1, false, {""})
             vim.api.nvim_buf_set_lines(logsBuffer, -1, -1, false, {header})
+            vim.api.nvim_buf_set_lines(logsBuffer, -1, -1, false, {""})
             vim.api.nvim_buf_set_lines(logsBuffer, -1, -1, false, vim.fn.readfile(fileInfo.path))
         end
     end
@@ -47,7 +49,6 @@ function M.getLogs()
     for i, folderInfo in ipairs(folders) do
         table.insert(selectedFolders, i +1 .. ". " .. folderInfo.folder)
     end
-
     local selectedFolderIndex = vim.fn.inputlist(selectedFolders)
     if selectedFolderIndex <= 0 or selectedFolderIndex > #selectedFolders then
         return nil
@@ -57,7 +58,9 @@ function M.getLogs()
         -- Concatenate logs for all folders
         for i, folderInfo in ipairs(folders) do
             local folderHeader = "=== " .. i .. ". " .. folderInfo.folder .. " ==="
+            vim.api.nvim_buf_set_lines(logsBuffer, -1, -1, false, {""})
             vim.api.nvim_buf_set_lines(logsBuffer, -1, -1, false, {folderHeader})
+            vim.api.nvim_buf_set_lines(logsBuffer, -1, -1, false, {""})
             concatLogs(folderInfo.path)
         end
     else
@@ -65,7 +68,9 @@ function M.getLogs()
         local selectedFolderPath = logsPath .. "/" .. folders[selectedFolderIndex - 1].folder .. "/Logs"
         if vim.fn.isdirectory(selectedFolderPath) == 1 then
             local folderHeader = "=== " .. selectedFolderIndex .. ". " .. folders[selectedFolderIndex - 1].folder .. " ==="
+            vim.api.nvim_buf_set_lines(logsBuffer, -1, -1, false, {""})
             vim.api.nvim_buf_set_lines(logsBuffer, -1, -1, false, {folderHeader})
+            vim.api.nvim_buf_set_lines(logsBuffer, -1, -1, false, {""})
             concatLogs(selectedFolderPath)
         else
             print("Folder not found.")
@@ -83,4 +88,3 @@ function M.getLogs()
     return logsBuffer
 end
 return M
-

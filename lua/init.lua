@@ -22,8 +22,7 @@ require('chat-gpt')
    -- You can also set up a keybinding if you prefer
    vim.api.nvim_set_keymap('n', '<leader>lc', ':CreateFolder<CR>', { noremap = true, silent = true })
 
-   --work in progress 
-   local log_filter = require('log_filter')
-vim.api.nvim_create_user_command('LogFilter', log_filter.getLogs, {})
-vim.api.nvim_set_keymap('n', '<leader>lf', ':LogFilter<CR>', { noremap = true, silent = true })
+   local todo_creator = require('todo_creator')
+vim.api.nvim_create_user_command('ManageTodos', todo_creator.handle_workflow, {})
+vim.api.nvim_set_keymap('n', '<leader>td', ':ManageTodos<CR>', {noremap= true})
 
