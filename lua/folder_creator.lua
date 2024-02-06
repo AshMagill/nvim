@@ -4,6 +4,13 @@ local function create_directories(base_path, folder_name, subfolders)
     os.execute("mkdir -p " .. full_path)
     for _, subfolder in ipairs(subfolders) do
         os.execute("mkdir -p " .. full_path .. "/" .. subfolder)
+        if subfolder == "Todo" then
+            local csv_file_path = full_path .. "/" .. subfolder .. "/todo.csv"
+            os.execute("touch " .. csv_file_path)
+            local csv_file = io.open(csv_file_path, "w")
+            csv_file:write("name,description,time-date,urgency\n") -- Add the header line
+            csv_file:close()
+        end
     end
 end
 function M.create_folder()
