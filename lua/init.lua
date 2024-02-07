@@ -46,4 +46,10 @@ vim.api.nvim_set_keymap('n', '<leader>dld', ':DeleteTodos<CR>', {noremap= true})
 vim.api.nvim_create_user_command('CreateTodos', todo_create.create_todo, {})
 vim.api.nvim_set_keymap('n', '<leader>dln', ':CreateTodos<CR>', {noremap= true})
 
+--save links
+local save_links = require('save-links')
+vim.api.nvim_create_user_command('SaveLinks', save_links.save_link, {})
+vim.api.nvim_set_keymap('n', '<leader>vln', ':SaveLinks<CR>', {noremap= true})
+
+
 

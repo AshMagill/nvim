@@ -1,0 +1,5 @@
+ this is where by brave browser stores bookmarks
+ ~/.config/BraveSoftware/Brave-Browser/Default/Bookmarks
+
+ I want this lua script that makes me a new empty book mark folder with the same name as the folder_name i create in this script, so if i make a new folder_name called "hi", my brave bookmarks should have a new fodler called hi 
+

@@ -6,12 +6,15 @@ local function create_log_file(category, title)
     local date = get_current_date()
     local filename = date .. "_" .. title:gsub("%s+", "_") .. ".txt"
     local path = ""
-    
-    if category:find("Workspace") then
-        path = "/home/ash/" .. category .. "/Logs/" .. filename
-    else
-        path = "/home/ash/Documents/" .. category .. "/Logs/" .. filename
-    end    
+    if category:find("Workflow") then
+        local workflow_path = "/home/ash/Documents"
+        local workflow_dirs = vim.fn.readdir(workflow_path)
+        path = workflow_path .. "/" .. category .. "/Logs/" .. filename
+    elseif category:find("Workspace") then
+        local workspace_path = "/home/ash"
+        local workspace_dirs = vim.fn.readdir(workspace_path)
+        path = workspace_path .. "/" .. category .. "/Logs/" .. filename
+    end
     local file = io.open(path, "w")
     if file then
         file:close()
@@ -21,41 +24,30 @@ local function create_log_file(category, title)
         print("Error creating log file: " .. path)
     end
 end
-
 function M.create_log()
-    local log_directories = {
-        Workflow = {},
-        Workspace = {}
-    }
-    
-    -- Read log directories from the file system
-    local workflow_path = "/home/ash/Documents/Workflow"
-    local workspace_path = "/home/ash/Workspace"
-local workflow_dirs = vim.fn.readdir(workflow_path)
-    local workspace_dirs = vim.fn.readdir(workspace_path)
-    
-    -- Populate log_directories table with directories from the file system
-    for _, dir in ipairs(workflow_dirs) do
-        table.insert(log_directories.Workflow, dir)
-    end
-    
-    for _, dir in ipairs(workspace_dirs) do
-        table.insert(log_directories.Workspace, dir)
-    end
-    
-    local categories = {}
-    
-    for workspace, dirs in pairs(log_directories) do
-        for _, dir in ipairs(dirs) do
-            table.insert(categories, workspace .. "/" .. dir)
-        end
-    end
-    
+    local categories = {"Workflow", "Workspace"}
     vim.ui.select(categories, {prompt = 'Select a category:'}, function(choice)
         if choice then
-            vim.ui.input({prompt = 'Enter the title of the log:'}, function(title)
-                if title then
-                    create_log_file(choice, title)
+            local path = ""
+            if choice == "Workflow" then
+                path = "/home/ash/Documents/Workflow"
+            elseif choice == "Workspace" then
+                path = "/home/ash/Workspace"
+            end
+            local dirs = vim.fn.readdir(path)
+            local subfolders = {}
+            for _, dir in ipairs(dirs) do
+                table.insert(subfolders, choice .. "/" .. dir)
+            end
+            vim.ui.select(subfolders, {prompt = 'Select a subfolder:'}, function(subfolder)
+                if subfolder then
+                    vim.ui.input({prompt = 'Enter the title of the log:'}, function(title)
+                        if title then
+                            create_log_file(subfolder, title)
+                        else
+                            print("Log creation cancelled.")
+                        end
+                    end)
                 else
                     print("Log creation cancelled.")
                 end
