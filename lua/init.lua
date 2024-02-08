@@ -76,3 +76,8 @@ local mistral = require('mistral')
 vim.api.nvim_create_user_command('Mistral', mistral.execute, {})
 vim.api.nvim_set_keymap('n', '<leader>sll', ':Mistral<CR>', {noremap = true})
 
+
+local concatinate = require('concatinate-folders')
+vim.api.nvim_create_user_command('Concat', concatinate.concatenateLogs, {})
+vim.api.nvim_set_keymap('n', '<leader>fff', ':Concat<CR>', {noremap = true})
+
