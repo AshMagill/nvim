@@ -72,4 +72,7 @@ local list_links = require('list-links')
 vim.api.nvim_create_user_command('ListLinks', list_links.list_links, {})
 vim.api.nvim_set_keymap('n', '<leader>vll', ':ListLinks<CR>', {noremap = true})
 
+local mistral = require('mistral')
+vim.api.nvim_create_user_command('Mistral', mistral.execute, {})
+vim.api.nvim_set_keymap('n', '<leader>sll', ':Mistral<CR>', {noremap = true})
 
