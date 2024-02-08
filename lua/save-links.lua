@@ -4,6 +4,7 @@ function M.save_link()
     local top_line = vim.fn.getline(1)
     -- Prompt the user to choose between workspace and workflow
     local choice = vim.fn.input('Save in workspace or workflow? (w/f): ')
+    print('/n')
     -- Set the base directory based on the user's choice
     local base_dir
     if choice == 'w' then
@@ -15,16 +16,21 @@ function M.save_link()
         return
     end
     -- Map through subdirectories and display them to the user
-    local subdirs = vim.fn.globpath(base_dir, '*', 1, 1)
-    local subdir_choice_index = vim.fn.inputlist(subdirs)
-    local subdir_choice = vim.fn.fnamemodify(subdirs[subdir_choice_index], ':t')
+local subdirs = vim.fn.globpath(base_dir, '*', 1, 1)
+print("Please choose a subcategory:")
+for i, subdir in ipairs(subdirs) do
+    print(i .. ". " .. subdir)
+end
+local subdir_choice_index = tonumber(vim.fn.input("Enter the index of the subcategory: "))
+local subdir_choice = vim.fn.fnamemodify(subdirs[subdir_choice_index], ':t')
+
     -- Prompt the user for a name and description
     local name = vim.fn.input('Enter a name: ')
     local description = vim.fn.input('Enter a description: ')
     -- Get the current date and time
     local time_date = os.date('%Y-%m-%d %H:%M:%S')
     -- Append the line to the CSV file
-    local csv_file = base_dir .. '/' .. subdir_choice .. '/Links/links.csv'
+    local csv_file = base    local csv_file = base_dir .. '/' .. subdir_choice .. '/Links/links.csv'
     local csv_line = top_line .. ',' .. name .. ',' .. description .. ',' .. time_date .. '\n'
     local csv_file_handle = io.open(vim.fn.expand(csv_file), 'a')
     if csv_file_handle then
