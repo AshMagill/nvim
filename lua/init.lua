@@ -10,6 +10,13 @@ require('local-ai')
 require('chat-gpt')
 --require('hardtime').setup()
 
+  --                     PRIME CONFIG                        -- 
+
+  -- PRODUCTIVITY REFINING INTEGRATED MANAGEMENT ENVIRONMENT --   
+
+
+----------------- express local -----------------
+
 -- new folder
    local folder_creator = require('folder_creator')
    -- Add a Neovim command that calls the create_folder function
@@ -17,19 +24,21 @@ require('chat-gpt')
    -- You can also set up a keybinding if you prefer
    vim.api.nvim_set_keymap('n', '<leader>eln', ':CreateFolder<CR>', { noremap = true, silent = true })
 
+
+----------------- captains log -----------------
+
 --list logs
    local log_filter = require('log_filter')
-   -- Add a Neovim command that calls the create_log function
    vim.api.nvim_create_user_command('GetLogs', log_filter.getLogs, {})
-   -- You can also set up a keybinding if you prefer
    vim.api.nvim_set_keymap('n', '<leader>cll', ':GetLogs<CR>', { noremap = true, silent = true })
 
 --create logs
    local log_creator = require('log_creator')
-   -- Add a Neovim command that calls the create_log function
    vim.api.nvim_create_user_command('CreateLog', log_creator.create_log, {})
-   -- You can also set up a keybinding if you prefer
    vim.api.nvim_set_keymap('n', '<leader>cln', ':CreateLog<CR>', { noremap = true, silent = true })
+
+----------------- do list -----------------
+
 
 --list todos
    local todo_list = require('todo_list')
@@ -46,10 +55,21 @@ vim.api.nvim_set_keymap('n', '<leader>dld', ':DeleteTodos<CR>', {noremap= true})
 vim.api.nvim_create_user_command('CreateTodos', todo_create.create_todo, {})
 vim.api.nvim_set_keymap('n', '<leader>dln', ':CreateTodos<CR>', {noremap= true})
 
+----------------- vi links -----------------
+
 --save links
 local save_links = require('save-links')
 vim.api.nvim_create_user_command('SaveLinks', save_links.save_link, {})
 vim.api.nvim_set_keymap('n', '<leader>vln', ':SaveLinks<CR>', {noremap= true})
 
+--delete links
+local delete_links = require('delete-links')
+vim.api.nvim_create_user_command('DeleteLinks', delete_links.list_links, {})
+vim.api.nvim_set_keymap('n', '<leader>vld', ':DeleteLinks<CR>', {noremap = true})
+
+--list links
+local list_links = require('list-links')
+vim.api.nvim_create_user_command('ListLinks', list_links.list_links, {})
+vim.api.nvim_set_keymap('n', '<leader>vll', ':ListLinks<CR>', {noremap = true})
 
 
