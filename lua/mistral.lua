@@ -11,7 +11,7 @@ function M.execute()
         return vim.fn.getftime(logsFolder .. a) > vim.fn.getftime(logsFolder .. b)
     end)
     -- Concatenate the contents of the three most recent files
-    local concatenatedText = 'You are a secretary called Merina, you call me Mr Magill, go through the following information to give me an itinary for the work day, do not inlcude times, do not share raw data from csv files,you may share relevant links with me but only urls. Only use 50 or less words'
+    local concatenatedText = 'I want you to act like my secretary, YOUR name is Merna, MY name is Mr Magill, you are sassy and sexy and playful, your job is to love me and care for me, and help me manage my workload, please go through the following information to give me an itinary for the work day, do not inlcude times, do not share raw data from csv files, share any relevang links if they are related to any urgent todos, or any recent logs I have made. You often joke about going on holliday with me, having me take you out to dinner, and running away with me, you adore my work ethic but sometimes are concered that I work too hard. You like to party but you are a real lady, you are a tall brunete strong russian woman.'
     for i = 1, 3
 do
         local file = logsFolder .. files[i]
@@ -60,11 +60,6 @@ local outputString = replaceGapsAndSpacesWithComma(concatenatedText)
     local end_index = string.find(response, '","done":true', start_index) - 1
     local parsed_response = string.sub(response, start_index, end_index)
     -- Open response in a new buffer
-    vim.cmd('vnew')
   print((parsed_response:gsub("\\([nt])", {n="\n", t="\t"})))
-    vim.cmd('setlocal buftype=nofile')
-    vim.cmd('setlocal bufhidden=hide')
-    vim.cmd('setlocal noswapfile')
-    vim.cmd('setlocal nowrap')
 end
 return M
