@@ -47,9 +47,8 @@ do
     end
     concatenatedText = concatenatedText .. "\n\nThis is a csv of my todos:\n\n" .. table.concat(cleanedTodoContents, "\n") .. "\n"
     -- Create a new buffer and set its contents to the concatenated text
-    --print(concatenatedText)
     function replaceGapsAndSpacesWithComma(str)
-    local result = string.gsub(str, "%s+", ",")
+    local result = string.gsub(str, "%s+", " ")
     return result
 end
 local outputString = replaceGapsAndSpacesWithComma(concatenatedText)
@@ -62,7 +61,7 @@ local outputString = replaceGapsAndSpacesWithComma(concatenatedText)
     local parsed_response = string.sub(response, start_index, end_index)
     -- Open response in a new buffer
     vim.cmd('vnew')
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, {parsed_response})
+  print((parsed_response:gsub("\\([nt])", {n="\n", t="\t"})))
     vim.cmd('setlocal buftype=nofile')
     vim.cmd('setlocal bufhidden=hide')
     vim.cmd('setlocal noswapfile')
