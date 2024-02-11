@@ -73,18 +73,11 @@ vim.api.nvim_create_user_command('ListLinks', list_links.list_links, {})
 vim.api.nvim_set_keymap('n', '<leader>vll', ':ListLinks<CR>', {noremap = true})
 
 --mucking around with ai
-
 local mistral = require('mistral')
 vim.api.nvim_create_user_command('Mistral', mistral.execute, {})
 vim.api.nvim_set_keymap('n', '<leader>sll', ':Mistral<CR>', {noremap = true})
 
-
+--mucking around with ai
 local gptmistral = require('gptmistral')
 vim.api.nvim_create_user_command('Mistral2', gptmistral.execute, {})
 vim.api.nvim_set_keymap('n', '<leader>lll', ':Mistral2<CR>', {noremap = true})
-
-local gptmistralplenary = require('gptmistralplenary')
-vim.api.nvim_create_user_command('Mistral3', gptmistralplenary.execute, {})
-vim.api.nvim_set_keymap('n', '<leader>ppp', ':Mistral3<CR>', {noremap = true})
-
-
