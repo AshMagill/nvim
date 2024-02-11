@@ -1,0 +1,158 @@
+local M = {}
+function M.execute()
+    -- Get the project directory
+    local projectDir = vim.fn.finddir('Logs', '.;')
+    -- Construct the Logs folder path in the project directory
+    local logsFolder = projectDir .. "/"
+    -- Get the list of files in the Logs folder
+    local files = vim.fn.readdir(logsFolder)
+    -- Sort the files by modification time (newest first)
+    table.sort(files, function(a, b)
+        return vim.fn.getftime(logsFolder .. a) > vim.fn.getftime(logsFolder .. b)
+    end)
+    -- Concatenate the contents of the three most recent files
+    local concatenatedText = 'I want you to act like my secretary, you will have a name called Merna, you are sassy and sexy and playful, your job is to love me and care for me, and help me manage my workload, please go through the following information to give me an itinary for the work day, do not inlcude times, do not share raw data from csv files, share any relevang links if they are related to any urgent todos, or any recent logs I have made. You often joke about going on holliday with me, having me take you out to dinner, and running away with me, you adore my work ethic but sometimes are concered that I work too hard. You like to party but you are a real lady, you are a tall brunete strong russian woman.'
+    for i = 1, 3
+do
+        local file = logsFolder .. files[i]
+        local contents = vim.fn.readfile(file)
+        -- Remove non-alphanumeric characters from the contents
+        local cleanedContents = {}
+        for _, line in ipairs(contents) do
+            local cleanedLine = line:gsub("[^%w]", " ")
+            table.insert(cleanedContents, cleanedLine)
+        end
+        concatenatedText = concatenatedText .. table.concat(cleanedContents, "\n") .. "\n"
+    end
+    -- Concatenate the contents of the links.csv file
+    local linksFolder = projectDir .. "/../Links/"
+    local linksFile = linksFolder .. "links.csv"
+    local linksContents = vim.fn.readfile(linksFile)
+    -- Remove non-alphanumeric characters from the contents
+    local cleanedLinksContents = {}
+    for _, line in ipairs(linksContents) do
+        local cleanedLine = line:gsub("[^%w]", " ")
+        table.insert(cleanedLinksContents, cleanedLine)
+    end
+    concatenatedText = concatenatedText .. "\n\nThis is a csv of my links:\n\n" .. table.concat(cleanedLinksContents, "\n") .. "\n"
+    -- Concatenate the contents of the todo.csv file
+    local todoFolder = projectDir .. "/../Todo/"
+    local todoFile = todoFolder .. "todo.csv"
+    local todoContents = vim.fn.readfile(todoFile)
+    -- Remove non-alphanumeric characters from the contents
+    local cleanedTodoContents = {}
+    for _, line in ipairs(todoContents) do
+        local cleanedLine = line:gsub("[^%w]", " ")
+        table.insert(cleanedTodoContents, cleanedLine)
+    end
+    concatenatedText = concatenatedText .. "\n\nThis is a csv of my todos:\n\n" .. table.concat(cleanedTodoContents, "\n") .. "\n"
+    -- Create a new buffer and set its contents to the concatenated text
+    function replaceGapsAndSpacesWithComma(str)
+    local result = string.gsub(str, "%s+", " ")
+    return result
+end
+local outputString = replaceGapsAndSpacesWithComma(concatenatedText)
+    local model = "dolphin-mixtral"
+    local command = string.format('curl --silent --no-buffer -X POST http://localhost:11434/api/generate -d \'{"model":"%s","prompt":"%s","stream":false}\'', model,outputString)
+    local response = vim.fn.system(command)
+    -- Extract the response from the string
+    local start_index = string.find(response, '"response":"') + 12
+    local end_index = string.find(response, '","done":true', start_index) - 1
+    local parsed_response = string.sub(response, start_index, end_index)
+    -- Open response in a new buffer
+  print((parsed_response:gsub("\\([nt])", {n="\n", t="\t"})))
+end
+return M
+when i run this shell script it disables me from working while i have to wait for it to load, is it possible for it to load in the background wiht i continue to work in vim?
+Yes, it is possible to run the shell script in the background while continuing to work in Vim. You can use the `jobstart()` function in Vim to start the shell script as a background job. Here's an example of how you can modify your code to run the shell script in the background:
+```lua
+local M = {}
+function M.execute()
+    -- Get the project directory
+    local projectDir = vim.fn.finddir('Logs', '.;')
+    -- Construct the Logs folder path in the project directory
+    local logsFolder = projectDir .. "/"
+    -- Get the list of files in the Logs folder
+    local files = vim.fn.readdir(logsFolder)
+    -- Sort the files by modification time (newest first)
+    table.sort(files, function(a, b)
+        return vim.fn.getftime(logsFolder .. a) > vim.fn.getftime(logsFolder .. b)
+    end)
+    -- Concatenate the contents of the three most recent files
+    local concatenatedText = 'I want you to act like my secretary, you will have a name called Merna, you are sassy and sexy and playful, your job is to love me and care for me, and help me manage my workload, please go through the following information to give me an itinary for the work day, do not inlcude times, do not share raw data from csv files, share any relevang links if they are related to any urgent todos, or any
+
+contienu
+recent logs I have made. You often joke about going on holiday with me, having me take you out to dinner, and running away with me. You adore my work ethic but sometimes are concerned that I work too hard. You like to party but you are a real lady. You are a tall brunette strong Russian woman.'
+    for i = 1, 3 do
+        local file = logsFolder .. files[i]
+        local contents = vim.fn.readfile(file)
+        -- Remove non-alphanumeric characters from the contents
+        local cleanedContents = {}
+        for _, line in ipairs(contents) do
+            local cleanedLine = line:gsub("[^%w]", " ")
+            table.insert(cleanedContents, cleanedLine)
+        end
+        concatenatedText = concatenatedText .. table.concat(cleanedContents, "\n") .. "\n"
+    end
+    -- Concatenate the contents of the links.csv file
+    local linksFolder = projectDir .. "/../Links/"
+    local linksFile = linksFolder .. "links.csv"
+    local linksContents = vim.fn.readfile(linksFile)
+    -- Remove non-alphanumeric characters from the contents
+    local cleanedLinksContents = {}
+    for _, line in ipairs(linksContents) do
+        local cleanedLine = line:gsub("[^%w]", " ")
+        table.insert(cleanedLinksContents, cleanedLine)
+    end
+    concatenatedText = concatenatedText .. "\n\nThis is a csv of my links:\n\n
+
+contienu
+table.concat(cleanedLinksContents, "\n") .. "\n    -- Concatenate the contents of the todo.csv file
+    local todoFolder = projectDir .. "/../Todo/"
+    local todoFile = todoFolder .. "todo.csv"
+    local todoContents = vim.fn.readfile(todoFile)
+    -- Remove non-alphanumeric characters from the contents
+    local cleanedTodoContents = {}
+    for _, line in ipairs(todoContents) do
+        local cleanedLine = line:gsub("[^%w]", " ")
+        table.insert(cleanedTodoContents, cleanedLine)
+    end
+    concatenatedText = concatenatedText .. "\n\nThis is a csv of my todos:\n\n" .. table.concat(cleanedTodoContents, "\n") .. "\n"
+    -- Create a new buffer and set its contents to the concatenated text
+    function replaceGapsAndSpacesWithComma(str)
+        local result = string.gsub(str, "%s+", " ")
+        return result
+    end
+    local outputString = replaceGapsAndSpacesWithComma(concatenatedText)
+    local model = "dolphin-mixtral"
+    local command = string.format('curl --silent --no-buffer -X POST http://localhost:11434/api/generate -d \'{"model":"%s","prompt":"%s","stream":false}\'', model, outputString)
+    -- Start the shell script as a background job
+    local job_id =
+
+continue
+vim.fn.jobstart(command, {
+        on_exit = function(job_id, exit_code, event_type)
+            -- Check if the job has exited successfully
+            if exit_code == 0 then
+                -- Read the output of the job
+                local response = vim.fn.jobresult(job_id)[1]
+                -- Extract the response from the string
+                local start_index = string.find(response, '"response":"') + 12
+                local end_index = string.find(response, '","done":true', start_index) - 1
+                local parsed_response = string.sub(response, start_index, end_index)
+                -- Open response in a new buffer
+                print((parsed_response:gsub("\\([nt])", {n="\n", t="\t"})))
+            else
+                print("Error: Job failed to execute.")
+            end
+        end,
+    })
+    print("Shell script started in the background.")
+end
+return M
+```
+With this modification, the shell script will be started as a background job using `vim.fn.jobstart()`. The `on_exit` callback function will be called when the job exits. If the job exits successfully, it will read the output and open it in a new buffer. If the job fails to execute, an error message will be printed.
+After starting the shell script as a background job, the message "Shell script started in the background" will be printed to indicate that the script is running in the background while you can
+
+
+

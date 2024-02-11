@@ -11,9 +11,8 @@ function M.execute()
         return vim.fn.getftime(logsFolder .. a) > vim.fn.getftime(logsFolder .. b)
     end)
     -- Concatenate the contents of the three most recent files
-    local concatenatedText = 'Your name is Merna. You are a secretary whose objective is to assist in workload management for Mr. Magill. After reviewing the provided information, you will compile a comprehensive workload for the day. It is important to note that specific times and raw data from CSV files will not be included. However, if there are any urgent tasks or recent logs, you will provide relevant links. The following output for you to give information on is a concatenated string, including logs, todos, and links. Links will be formatted as: URL, Name, Description, and Time-Date. Todos will be formatted as: Name, Description, Time-Date, and Urgency.'
-    for i = 1, 3
-do
+    local concatenatedText = "relay my input."
+    for i = 1, 3 do
         local file = logsFolder .. files[i]
         local contents = vim.fn.readfile(file)
         -- Remove non-alphanumeric characters from the contents
@@ -48,18 +47,50 @@ do
     concatenatedText = concatenatedText .. "\n\nThis is a csv of my todos:\n\n" .. table.concat(cleanedTodoContents, "\n") .. "\n"
     -- Create a new buffer and set its contents to the concatenated text
     function replaceGapsAndSpacesWithComma(str)
-    local result = string.gsub(str, "%s+", " ")
-    return result
+        local result = string.gsub(str, "%s+", " ")
+        return result
+    end
+    local outputString = replaceGapsAndSpacesWithComma(concatenatedText)
+    -- Make the API call to OpenAI
+    local api_key = os.getenv("OPENAI_API_KEY")
+    local model = 'gpt-4-1106-preview'	 -- Change to your desired model name
+    local url = "https://api.openai.com/v1/chat/completions"
+    local headers = {
+        "Content-Type: application/json",
+        "Authorization: Bearer " .. api_key
+    }
+    local body = {
+      model =  model,
+      frequency_penalty = 0,
+      presence_penalty = 0,
+      max_tokens = 3000,
+      temperature = 0,
+      top_p = 1,
+      n = 1,
+        user = "user",
+        messages = {
+            {
+                role = "system",
+                content = "assistant"
+            },
+            {
+                role = "user",
+                content = outputString
+            }
+        }
+    }
+    -- Convert the body table to a curl string
+    local curlString = "curl -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer " .. api_key .. "' -d '" .. vim.fn.json_encode(body) .. "' " .. url
+    -- Send the curl request
+    local response_body = {}
+local handle = io.popen(curlString)
+local result = handle:read("*a")
+handle:close()
+-- Check if the API call was successful
+if result then
+    print(result)
+else
+    print("API call failed")
 end
-local outputString = replaceGapsAndSpacesWithComma(concatenatedText)
-    local model = "dolphin-mixtral:8x7b-v2.5-q8_0"
-    local command = string.format('curl --silent --no-buffer -X POST http://localhost:11434/api/generate -d \'{"model":"%s","prompt":"%s","stream":false}\'', model,outputString)
-    local response = vim.fn.system(command)
-    -- Extract the response from the string
-    local start_index = string.find(response, '"response":"') + 12
-    local end_index = string.find(response, '","done":true', start_index) - 1
-    local parsed_response = string.sub(response, start_index, end_index)
-    -- Open response in a new buffer
-  print((parsed_response:gsub("\\([nt])", {n="\n", t="\t"})))
 end
 return M
