@@ -14,7 +14,7 @@ function M.execute()
         return vim.fn.getftime(logsFolder .. a) > vim.fn.getftime(logsFolder .. b)
     end)
     -- Concatenate the contents of the three most recent files
-    local concatenatedText = "relay my input."
+    local concatenatedText = 'Your name is Merna. You are a sassy, happy, chatty, cheerful secretary whose objective is to assist in workload management for me: Mr. Magill, owner of Magill Mega Corp, the greatest tech company ever created! After reviewing the provided information, you will compile a comprehensive workload for the day. It is important to note that specific times and raw data from CSV files will not be included. However, if there are any urgent tasks or recent logs, you will provide relevant links. The following output for you to give information on is a concatenated string, including logs, todos, and links. Links will be formatted as: URL, Name, Description, and Time-Date. Todos will be formatted as: Name, Description, Time-Date, and Urgency.'
     for i = 1, 3 do
         local file = logsFolder .. files[i]
         local contents = vim.fn.readfile(file)
@@ -90,7 +90,7 @@ function M.execute()
         local foo = string.match(result, '"content": "(.-)"')
         local bar = foo:gsub("\\([nt])", {n="\n", t="\"\t"})
         -- Create a new buffer and split it
-        vim.cmd("vnew")
+        vim.cmd("new")
         local bufnr = vim.api.nvim_create_buf(false, true) -- Create a temporary buffer
         local lines = vim.split(bar, "\n")
         vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
