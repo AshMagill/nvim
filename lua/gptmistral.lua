@@ -1,5 +1,4 @@
 local M = {}
-    -- Store the current window and cursor position
 function M.execute()
     -- Get the project directory
     local projectDir = vim.fn.finddir('Logs', '.;')
@@ -46,6 +45,7 @@ function M.execute()
         table.insert(cleanedTodoContents, cleanedLine)
     end
     concatenatedText = concatenatedText .. "\n\nThis is a csv of my todos:\n\n" .. table.concat(cleanedTodoContents, "\n") .. "\n"
+    -- Create a new buffer and set its contents to the concatenated text
     function replaceGapsAndSpacesWithComma(str)
         local result = string.gsub(str, "%s+", " ")
         return result
@@ -63,8 +63,8 @@ function M.execute()
       model =  model,
       frequency_penalty = 0,
       presence_penalty = 0,
-      max_tokens = 2000,
-      temperature = 1,
+      max_tokens = 3000,
+      temperature = 0,
       top_p = 1,
       n = 1,
         user = "user",
@@ -79,32 +79,18 @@ function M.execute()
             }
         }
     }
-    
-
-local curlString = "curl -s -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer " .. api_key .. "' -d '" .. vim.fn.json_encode(body) .. "' " .. url
-
--- Add a prompt or condition to wait for user input
-
-local handle = vim.fn.system(curlString)
-local result = tostring(handle) -- Convert handle to a string
+    -- Convert the body table to a curl string
+    local curlString = "curl -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer " .. api_key .. "' -d '" .. vim.fn.json_encode(body) .. "' " .. url
+    -- Send the curl request
+    local response_body = {}
+local handle = io.popen(curlString)
+local result = handle:read("*a")
+handle:close()
 -- Check if the API call was successful
 if result then
-  local foo = string.match(result, '"content": "(.-)"')
-  local bar = foo:gsub("\\([nt])", {n="\n", t="\t"})
-  -- Create a new buffer and split it
-  vim.cmd("vnew")
-  local bufnr = vim.api.nvim_create_buf(false, true) -- Create a temporary buffer
-  local lines = {}
-  for line in bar:gmatch("[^\r\n]+") do
-    table.insert(lines, line)
-  end
-  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
-  vim.api.nvim_set_current_buf(bufnr) -- Set the current buffer to the new temporary buffer
-  vim.cmd("setlocal buftype=nofile") -- Set the buffer type to "nofile" to indicate it's a temporary buffer
+    print(result)
 else
-  print("API call failed")
+    print("API call failed")
 end
--- Close the handle
 end
 return M
-
