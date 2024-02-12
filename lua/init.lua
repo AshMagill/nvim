@@ -82,9 +82,3 @@ vim.api.nvim_set_keymap('n', '<leader>sll', ':Mistral<CR>', {noremap = true})
 local gptmistral = require('gptmistral')
 vim.api.nvim_create_user_command('Mistral2', gptmistral.execute, {})
 vim.api.nvim_set_keymap('n', '<leader>lll', ':Mistral2<CR>', {noremap = true})
-
-local gptmistralplenary = require('gptmistralplenary')
-vim.api.nvim_create_user_command('Mistral3', gptmistralplenary.execute, {})
-vim.api.nvim_set_keymap('n', '<leader>ppp', ':Mistral3<CR>', {noremap = true})
-
-
